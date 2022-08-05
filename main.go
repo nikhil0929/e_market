@@ -1,11 +1,13 @@
 package main
 
 import (
-	"e_market/Database"
-	"e_market/ModelObjects"
+	"nikhil/e_market/src/Config"
+	"nikhil/e_market/src/DB"
+	"nikhil/e_market/src/Utils"
 )
 
 func main() {
-	db := Database.CreateDatabase()
-	ModelObjects.MigrateAll(db)
+	Config.LoadEnv()
+	db := DB.CreateDatabase()
+	Utils.MigrateAll(db)
 }

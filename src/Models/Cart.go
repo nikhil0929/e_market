@@ -1,4 +1,4 @@
-package ModelObjects
+package Models
 
 import (
 	"time"

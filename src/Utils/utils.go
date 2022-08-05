@@ -3,10 +3,23 @@
 package Utils
 
 import (
+	"fmt"
+	"nikhil/e_market/src/Models"
+
 	"gorm.io/gorm"
 )
 
 func MigrateAll(db *gorm.DB) {
 
-	db.AutoMigrate(&User{}, &Product{}, &art{}, &Order{}, &CartItem{}, &OrderItem{}, &Colletion{})
+	err := db.Debug().AutoMigrate(
+		&Models.User{},
+		&Models.Collection{},
+		&Models.Product{},
+		&Models.Cart{},
+		&Models.Order{},
+		&Models.CartItem{},
+		&Models.OrderItem{})
+	if err != nil {
+		fmt.Println("Sorry couldn't migrate'...")
+	}
 }
