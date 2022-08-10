@@ -1,6 +1,10 @@
 package Routes
 
-import "github.com/gofiber/fiber"
+import (
+	Controller "nikhil/e_market/src/Controllers"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 func enableOrderRoutes(app *fiber.App) {
 	// Order routes

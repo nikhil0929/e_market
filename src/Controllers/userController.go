@@ -1,23 +1,23 @@
 package Controller
 
-import "github.com/gofiber/fiber"
+import "github.com/gofiber/fiber/v2"
 
-func GetAllUsers(c *fiber.Ctx) {
-	c.Send("GetAllUsers")
+func GetAllUsers(c *fiber.Ctx) error {
+	return c.SendString("GetAllUsers")
 }
 
-func CreateUser(c *fiber.Ctx) {
-	c.Send("CreateUser")
+func CreateUser(c *fiber.Ctx) error {
+	return c.SendString("CreateUser")
 }
 
-func GetUser(c *fiber.Ctx) {
-	c.Send("GetUser")
+func GetUser(c *fiber.Ctx) error {
+	return c.SendString("GetUser")
 }
 
-func UpdateUser(c *fiber.Ctx) {
-	c.Send("UpdateUser")
+func UpdateUser(c *fiber.Ctx) error {
+	return c.SendString("UpdateUser")
 }
 
-func DeleteUser(c *fiber.Ctx) {
-	c.Send("DeleteUser")
+func DeleteUser(c *fiber.Ctx) error {
+	return c.SendString("DeleteUser")
 }

@@ -8,13 +8,13 @@
 3. Service does the required things and also calls -> DB operations like fetch,update,delete,insert
 */
 
-//RENAME THIS FILE
+// This file should NOT be in the Routes folder. Pls move it to the src folder or create a new folder and move it there.
 package Routes
 
 import (
 	"log"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 func StartServerProcess() {

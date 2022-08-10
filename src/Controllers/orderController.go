@@ -1,26 +1,25 @@
 package Controller
 
-import "github.com/gofiber/fiber"
+import "github.com/gofiber/fiber/v2"
 
-func GetAllOrders(c *fiber.Ctx) {
-	c.Send("GetAllOrders")
+func GetAllOrders(c *fiber.Ctx) error {
+	return c.SendString("GetAllOrders")
 }
 
-func CreateOrder(c *fiber.Ctx) {
+func CreateOrder(c *fiber.Ctx) error {
 	// the user must be logged in and authenticated to create an order
 	// the same applies to whatever needs authentication
-	c.Send("CreateOrder")
+	return c.SendString("CreateOrder")
 }
 
-func GetOrder(c *fiber.Ctx) {
-	c.Send("GetOrder")
+func GetOrder(c *fiber.Ctx) error {
+	return c.SendString("GetOrder")
 }
 
-func UpdateOrder(c *fiber.Ctx) {
-	c.Send("UpdateOrder")
+func UpdateOrder(c *fiber.Ctx) error {
+	return c.SendString("UpdateOrder")
 }
 
-func DeleteOrder(c *fiber.Ctx) {
-	// im assuming the user gets refunded if the order is deleted
-	c.Send("DeleteOrder")
+func DeleteOrder(c *fiber.Ctx) error {
+	return c.SendString("DeleteOrder")
 }

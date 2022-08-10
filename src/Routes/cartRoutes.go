@@ -3,7 +3,7 @@ package Routes
 import (
 	Controller "nikhil/e_market/src/Controllers"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 func enableCartRoutes(app *fiber.App) {
