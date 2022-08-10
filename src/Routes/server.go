@@ -10,3 +10,20 @@
 
 //RENAME THIS FILE
 package Routes
+
+import (
+	"log"
+
+	"github.com/gofiber/fiber"
+)
+
+func StartServerProcess() {
+	app := fiber.New()
+
+	enableProductRoutes(app)
+	enableCollectionRoutes(app)
+	// Add the rest of the routes and stuff here ...
+
+	log.Fatal(app.Listen(":8080"))
+
+}
