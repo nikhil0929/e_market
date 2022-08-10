@@ -1,4 +1,4 @@
-package Controllers
+package Controller
 
 import "github.com/gofiber/fiber"
 

@@ -1,12 +1,17 @@
 package Routes
 
-import "github.com/gofiber/fiber"
+import (
+	Controller "nikhil/e_market/src/Controllers"
+
+	"github.com/gofiber/fiber"
+)
 
 func enableCollectionRoutes(app *fiber.App) {
 	// Collection routes
-	collections := app.Group("/collections", GetAllCollections)
-	collections.Post("/", CreateCollection)
-	collections.Get("/:id", GetCollection)
-	collections.Put("/:id", UpdateCollection)
+	// all routes here are for admin user group only
+	collections := app.Group("/collections", Controller.GetAllCollections)
+	collections.Post("/", Controller.CreateCollection)
+	collections.Get("/:id", Controller.GetCollection)
+	collections.Put("/:id", Controller.UpdateCollection)
 	// Add more routes here ...
 }

@@ -1,6 +1,6 @@
 // Call appropriate service in 'Services' dir to process the incoming request
 
-package Controllers
+package Controller
 
 import "github.com/gofiber/fiber"
 
@@ -18,4 +18,8 @@ func GetProduct(c *fiber.Ctx) {
 
 func UpdateProduct(c *fiber.Ctx) {
 	c.Send("UpdateProduct")
+}
+
+func DeleteProduct(c *fiber.Ctx) {
+	c.Send("DeleteProduct")
 }
