@@ -5,6 +5,7 @@ package Utils
 import (
 	"fmt"
 	"nikhil/e_market/src/Models"
+	"reflect"
 
 	"gorm.io/gorm"
 )
@@ -22,4 +23,8 @@ func MigrateAll(db *gorm.DB) {
 	if err != nil {
 		fmt.Println("Sorry couldn't migrate'...")
 	}
+}
+
+func CreateLogMessage(action string, object interface{}) string {
+	return fmt.Sprintf("%s %s", action, reflect.TypeOf(object))
 }

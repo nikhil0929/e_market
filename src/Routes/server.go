@@ -24,6 +24,8 @@ func StartServerProcess() {
 	enableCollectionRoutes(app)
 	enableUserRoutes(app)
 	enableCartRoutes(app)
+	enableProductRoutes(app)
+	enableOrderRoutes(app)
 	// Add the rest of the routes and stuff here ...
 
 	log.Fatal(app.Listen(":8080"))

@@ -6,11 +6,16 @@ package DB
 // *** place DB connection file in this folder as well ***
 import (
 	"fmt"
+	"log"
 	"nikhil/e_market/src/Config"
+	"nikhil/e_market/src/Utils"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
+
+// Database connection object
+var Connection *gorm.DB
 
 // Creates a new database connection with the given credentials
 // Returns DB object
@@ -21,6 +26,8 @@ func ConnectDatabase() *gorm.DB {
 	if err != nil {
 		panic(err)
 	}
+	log.Println("Connected to database")
+	Connection = db
 	return db
 }
 
@@ -31,22 +38,41 @@ func CreateRecord(db *gorm.DB, object interface{}) {
 	if result.Error != nil {
 		panic(result.Error)
 	}
+	log.Println(Utils.CreateLogMessage("Created record", object))
 }
 
 // Queries the database for the given set of fields and some string conditions specified as a map
 // Returns the queried object
-func QueryRecordWithMapConditions(db *gorm.DB, fields []string, conditions map[string]interface{}, modelObject interface{}, outputObject interface{}) {
-	result := db.Model(modelObject).Select(fields).Where(conditions).First(&outputObject)
+func QueryRecordWithMapConditions(db *gorm.DB, modelObject interface{}, outputObject interface{}, fields []string, conditions map[string]interface{}) {
+
+	result := db.Model(&modelObject).Select(fields).Where(conditions).Find(&outputObject)
+	// result := db.Where(conditions).Find(&modelObject)
 	if result.Error != nil {
 		panic(result.Error)
 	}
+	// save outputObject in an array variable
+
+	fmt.Println(outputObject)
+
+	log.Println(Utils.CreateLogMessage("Queried record", modelObject))
 }
 
 // Updates the given model object in the database with new fields specified as a map
-func UpdateRecordWithMapConditions(db *gorm.DB, object interface{}, fieldMap map[string]interface{}) {
+func UpdateRecordWithMapConditions(db *gorm.DB, modelObject interface{}, fieldMap map[string]interface{}) {
 
-	result := db.Model(object).Updates(fieldMap)
+	result := db.Model(modelObject).Updates(fieldMap)
 	if result.Error != nil {
 		panic(result.Error)
 	}
+	log.Println(Utils.CreateLogMessage("Updated record", modelObject))
+}
+
+// Deletes the given model object from the database with the given conditions specified as a map
+func DeleteRecord(db *gorm.DB, modelObject interface{}, conditions map[string]interface{}) {
+
+	result := db.Where(conditions).Delete(&modelObject)
+	if result.Error != nil {
+		panic(result.Error)
+	}
+	log.Println(Utils.CreateLogMessage("Deleted record", modelObject))
 }
