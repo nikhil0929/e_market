@@ -3,9 +3,10 @@
 package Controller
 
 import (
-	"fmt"
 	"nikhil/e_market/src/DB"
 	"nikhil/e_market/src/Models"
+	"nikhil/e_market/src/Services"
+	"nikhil/e_market/src/Utils"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -24,16 +25,17 @@ func CreateProduct(c *fiber.Ctx) error {
 }
 
 func GetProduct(c *fiber.Ctx) error {
-	queryParams := make(map[string]string)
-	error := c.QueryParser(queryParams)
-	if error != nil {
-		return error
-	}
-	fmt.Println(queryParams)
-	return c.SendString("GetProduct")
+	queryParams := Utils.QueryParamsToMap(c.OriginalURL())
+	result := Services.GetProducts(queryParams)
+	return c.JSON(result)
 }
 
 func UpdateProduct(c *fiber.Ctx) error {
+	var newFields Models.Product
+	if err := c.BodyParser(&newFields); err != nil {
+		return err
+	}
+	DB.UpdateRecord(DB.Connection, Models.Product{}, newFields)
 	return c.SendString("UpdateProduct")
 }
 

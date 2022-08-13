@@ -13,4 +13,5 @@ func main() {
 	//tests.CreateAndLoadProduct()
 	tests.ServerProccesTester()
 	//tests.DeleteItem()
+	//fmt.Println(Utils.SliceToEmptyStruct([]string{"a", "b", "c"}))
 }

@@ -41,26 +41,23 @@ func CreateRecord(db *gorm.DB, object interface{}) {
 	log.Println(Utils.CreateLogMessage("Created record", object))
 }
 
-// Queries the database for the given set of fields and some string conditions specified as a map
+// Queries the database for the given set of fields and some string conditions specified as a map/struct
 // Returns the queried object
-func QueryRecordWithMapConditions(db *gorm.DB, modelObject interface{}, outputObject interface{}, fields []string, conditions map[string]interface{}) {
-
-	result := db.Model(&modelObject).Select(fields).Where(conditions).Find(&outputObject)
-	// result := db.Where(conditions).Find(&modelObject)
+func QueryRecordWithMapConditions(db *gorm.DB, modelObject interface{}, outputObject interface{}, conditions interface{}) interface{} {
+	result := db.Model(&modelObject).Where(conditions).Find(&outputObject)
 	if result.Error != nil {
 		panic(result.Error)
 	}
 	// save outputObject in an array variable
 
-	fmt.Println(outputObject)
-
 	log.Println(Utils.CreateLogMessage("Queried record", modelObject))
+	return outputObject
 }
 
-// Updates the given model object in the database with new fields specified as a map
-func UpdateRecordWithMapConditions(db *gorm.DB, modelObject interface{}, fieldMap map[string]interface{}) {
+// Updates the given model object in the database with new fields specified as a map/struct
+func UpdateRecord(db *gorm.DB, modelObject interface{}, newVals interface{}) {
 
-	result := db.Model(modelObject).Updates(fieldMap)
+	result := db.Model(modelObject).Updates(newVals)
 	if result.Error != nil {
 		panic(result.Error)
 	}

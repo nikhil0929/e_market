@@ -32,11 +32,11 @@ func CreateAndLoadProduct() {
 
 	var Products []Models.Product
 	var RecievedProducts []RecivedProduct
-	conditions := map[string]interface{}{"name": "Sample Product"}
-	fields := []string{"name", "description", "price", "inventory"}
+	conditions := map[string]interface{}{"price": "199.99"}
+	//fields := []string{"name", "description", "price", "inventory"}
 
 	//DB.CreateRecord(db, &sampleProduct)
-	DB.QueryRecordWithMapConditions(DB.Connection, Products, RecievedProducts, fields, conditions)
+	DB.QueryRecordWithMapConditions(DB.Connection, Products, RecievedProducts, conditions)
 	// Query all products with name "Sample Product" and print their details
 	for _, product := range Products {
 		log.Println(product)
