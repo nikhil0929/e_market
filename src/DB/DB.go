@@ -55,9 +55,9 @@ func QueryRecordWithMapConditions(db *gorm.DB, modelObject interface{}, outputOb
 }
 
 // Updates the given model object in the database with new fields specified as a map/struct
-func UpdateRecord(db *gorm.DB, modelObject interface{}, newVals interface{}) {
+func UpdateRecord(db *gorm.DB, modelObject interface{}, conditions interface{}, newVals interface{}) {
 
-	result := db.Model(modelObject).Updates(newVals)
+	result := db.Model(modelObject).Where(conditions).Updates(newVals)
 	if result.Error != nil {
 		panic(result.Error)
 	}

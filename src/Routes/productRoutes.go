@@ -8,11 +8,10 @@ import (
 
 func enableProductRoutes(app *fiber.App) {
 	// Product routes
-	app.Get("/products/:collection", Controller.GetAllProducts)
+	app.Get("/products", Controller.GetProducts)
 	// all routes here are for admin user group only
-	app.Post("/products/create", Controller.CreateProduct)
-	app.Get("/products", Controller.GetProduct)
-	app.Put("/products/update", Controller.UpdateProduct) //Can add product to collection here
-	app.Delete("/products/delete:id", Controller.DeleteProduct)
+	app.Post("/products", Controller.CreateProduct)
+	app.Put("/products", Controller.UpdateProduct) //Can add product to collection here
+	app.Delete("/products", Controller.DeleteProduct)
 
 }

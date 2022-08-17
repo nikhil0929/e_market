@@ -9,7 +9,7 @@ import (
 func main() {
 	Config.LoadEnv()
 	DB.ConnectDatabase()
-	//Utils.MigrateAll(db)
+	// Utils.MigrateAll(DB.Connection)
 	//tests.CreateAndLoadProduct()
 	tests.ServerProccesTester()
 	//tests.DeleteItem()

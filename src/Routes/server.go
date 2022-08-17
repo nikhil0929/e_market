@@ -21,11 +21,11 @@ func StartServerProcess() {
 	app := fiber.New()
 
 	enableProductRoutes(app)
-	enableCollectionRoutes(app)
-	enableUserRoutes(app)
-	enableCartRoutes(app)
-	enableProductRoutes(app)
-	enableOrderRoutes(app)
+	// enableCollectionRoutes(app)
+	// enableUserRoutes(app)
+	// enableCartRoutes(app)
+	// enableProductRoutes(app)
+	// enableOrderRoutes(app)
 	// Add the rest of the routes and stuff here ...
 
 	log.Fatal(app.Listen(":8080"))

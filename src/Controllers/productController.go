@@ -11,10 +11,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func GetAllProducts(c *fiber.Ctx) error {
-	return c.SendString("GetAllProducts")
+func GetProducts(c *fiber.Ctx) error {
+	queryParams := Utils.QueryParamsToMap(c.OriginalURL())
+	result := Services.GetProducts(queryParams)
+	return c.JSON(result)
 }
 
+// Admin level commands
 func CreateProduct(c *fiber.Ctx) error {
 	var newProduct Models.Product
 	if err := c.BodyParser(&newProduct); err != nil {
@@ -24,21 +27,18 @@ func CreateProduct(c *fiber.Ctx) error {
 	return c.SendString("CreateProduct")
 }
 
-func GetProduct(c *fiber.Ctx) error {
-	queryParams := Utils.QueryParamsToMap(c.OriginalURL())
-	result := Services.GetProducts(queryParams)
-	return c.JSON(result)
-}
-
 func UpdateProduct(c *fiber.Ctx) error {
+	queryParams := Utils.QueryParamsToMap(c.OriginalURL())
 	var newFields Models.Product
 	if err := c.BodyParser(&newFields); err != nil {
 		return err
 	}
-	DB.UpdateRecord(DB.Connection, Models.Product{}, newFields)
+	Services.UpdateProduct(queryParams, newFields)
 	return c.SendString("UpdateProduct")
 }
 
 func DeleteProduct(c *fiber.Ctx) error {
+	queryParams := Utils.QueryParamsToMap(c.OriginalURL())
+	Services.DeleteProduct(queryParams)
 	return c.SendString("DeleteProduct")
 }

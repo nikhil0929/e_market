@@ -15,7 +15,6 @@ func MigrateAll(db *gorm.DB) {
 
 	err := db.Debug().AutoMigrate(
 		&Models.User{},
-		&Models.Collection{},
 		&Models.Product{},
 		&Models.Cart{},
 		&Models.Order{},
@@ -30,9 +29,15 @@ func CreateLogMessage(action string, object interface{}) string {
 	return fmt.Sprintf("%s %s", action, reflect.TypeOf(object))
 }
 
+// Takes query params string and returns a map of query params
+// If no query params are provided, returns an empty map
+// An empty query param is equivalent to "*"
 func QueryParamsToMap(queryParams string) map[string]interface{} {
 	params := make(map[string]interface{})
 	urlSplit := strings.Split(queryParams, "?")
+	if len(urlSplit) < 2 {
+		return params
+	}
 	queryParamArr := strings.Split(urlSplit[1], "&")
 	for _, param := range queryParamArr {
 		paramSplit := strings.Split(param, "=")
