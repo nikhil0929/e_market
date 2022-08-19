@@ -21,8 +21,7 @@ func StartServerProcess() {
 	app := fiber.New()
 
 	enableProductRoutes(app)
-	// enableCollectionRoutes(app)
-	// enableUserRoutes(app)
+	//enableUserRoutes(app)
 	// enableCartRoutes(app)
 	// enableProductRoutes(app)
 	// enableOrderRoutes(app)

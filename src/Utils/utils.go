@@ -45,3 +45,10 @@ func QueryParamsToMap(queryParams string) map[string]interface{} {
 	}
 	return params
 }
+
+func CheckProductValidity(product Models.Product) bool {
+	if product.Price < 0 || product.Inventory < 0 || product.Name == "" || product.Price == 0 || product.Inventory == 0 {
+		return false
+	}
+	return true
+}
