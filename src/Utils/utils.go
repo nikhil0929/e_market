@@ -47,8 +47,16 @@ func QueryParamsToMap(queryParams string) map[string]interface{} {
 }
 
 func CheckProductValidity(product Models.Product) bool {
+	fmt.Println(product)
 	if product.Price < 0 || product.Inventory < 0 || product.Name == "" || product.Price == 0 || product.Inventory == 0 {
 		return false
 	}
 	return true
+}
+
+func CreateConditionClause(query *gorm.DB, queryParams map[string][]string) *gorm.DB {
+	for key, value := range queryParams {
+		query = query.Where(key+" IN (?)", value)
+	}
+	return query
 }

@@ -32,9 +32,9 @@ func ConnectDatabase() *gorm.DB {
 }
 
 // Creates new record instance in the database from the given model object
-func CreateRecord(db *gorm.DB, object interface{}) {
+func CreateRecord(object interface{}) {
 
-	result := db.Create(object)
+	result := Connection.Create(object)
 	if result.Error != nil {
 		panic(result.Error)
 	}
@@ -43,8 +43,10 @@ func CreateRecord(db *gorm.DB, object interface{}) {
 
 // Queries the database for the given set of fields and some string conditions specified as a map/struct
 // Returns the queried object
-func QueryRecordWithMapConditions(db *gorm.DB, modelObject interface{}, outputObject interface{}, conditions interface{}) interface{} {
-	result := db.Model(&modelObject).Where(conditions).Find(&outputObject)
+func QueryRecordWithMapConditions(modelObject interface{}, outputObject interface{}, conditions interface{}) interface{} {
+	filterQuerable := Connection.Model(&modelObject)
+	newQuery := Utils.CreateConditionClause(filterQuerable, conditions.(map[string][]string))
+	result := newQuery.Find(&outputObject)
 	if result.Error != nil {
 		panic(result.Error)
 	}
@@ -55,9 +57,10 @@ func QueryRecordWithMapConditions(db *gorm.DB, modelObject interface{}, outputOb
 }
 
 // Updates the given model object in the database with new fields specified as a map/struct
-func UpdateRecord(db *gorm.DB, modelObject interface{}, conditions interface{}, newVals interface{}) {
-
-	result := db.Model(modelObject).Where(conditions).Updates(newVals)
+func UpdateRecord(modelObject interface{}, conditions interface{}, newVals interface{}) {
+	filterQuerable := Connection.Model(&modelObject)
+	newQuery := Utils.CreateConditionClause(filterQuerable, conditions.(map[string][]string))
+	result := newQuery.Updates(newVals)
 	if result.Error != nil {
 		panic(result.Error)
 	}
@@ -65,9 +68,10 @@ func UpdateRecord(db *gorm.DB, modelObject interface{}, conditions interface{}, 
 }
 
 // Deletes the given model object from the database with the given conditions specified as a map
-func DeleteRecord(db *gorm.DB, modelObject interface{}, conditions map[string]interface{}) {
-
-	result := db.Where(conditions).Delete(&modelObject)
+func DeleteRecord(modelObject interface{}, conditions interface{}) {
+	filterQuerable := Connection.Model(&modelObject)
+	newQuery := Utils.CreateConditionClause(filterQuerable, conditions.(map[string][]string))
+	result := newQuery.Delete(&modelObject)
 	if result.Error != nil {
 		panic(result.Error)
 	}

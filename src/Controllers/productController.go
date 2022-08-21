@@ -3,11 +3,11 @@
 package Controller
 
 import (
+	"net/http"
 	"nikhil/e_market/src/Models"
 	"nikhil/e_market/src/Services"
-	"nikhil/e_market/src/Utils"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gin-gonic/gin"
 )
 
 // Public level commands
@@ -15,41 +15,53 @@ import (
 // Get Products from DB with specified query parameter conditions
 // e.g /products?category=electronics
 // e.g /products?price=100.99&category=applicances
-func GetProducts(c *fiber.Ctx) error {
-	queryParams := Utils.QueryParamsToMap(c.OriginalURL())
+func GetProducts(c *gin.Context) {
+	queryParams := c.Request.URL.Query()
 	result := Services.GetProducts(queryParams)
-	return c.JSON(result)
+	c.JSON(http.StatusOK, result)
 }
 
 // Admin level commands
 
 // Create Product in DB with specified fields in the request body as JSON object
 // Product fields are specified in the Models.Product struct
-func CreateProduct(c *fiber.Ctx) error {
+func CreateProduct(c *gin.Context) {
 	var newProduct Models.Product
-	if err := c.BodyParser(&newProduct); err != nil {
-		return err
+	if err := c.ShouldBindJSON(&newProduct); err != nil {
+		c.String(http.StatusBadRequest, "CreateProduct: Unable to bind JSON body to object")
+		return
 	}
-	returnMsg := Services.CreateProduct(newProduct)
-	return c.SendString(returnMsg)
+	// TODO: Put this in a separate function
+	isValid := Services.CreateProduct(newProduct)
+	if isValid {
+		c.String(http.StatusOK, "CreateProduct: SUCCESS")
+	} else {
+		c.String(http.StatusBadRequest, "CreateProduct: Invalid Product fields specified")
+	}
 }
 
 // Update Product in DB with new fields in the request body as JSON object and specified conditions in the query parameters
 // e.g. /products?id=1&price=100.99
 // JSON Body { "price": 50.00 }
-func UpdateProduct(c *fiber.Ctx) error {
-	queryParams := Utils.QueryParamsToMap(c.OriginalURL())
+func UpdateProduct(c *gin.Context) {
+	queryParams := c.Request.URL.Query()
 	var newFields Models.Product
-	if err := c.BodyParser(&newFields); err != nil {
-		return err
+	if err := c.ShouldBindJSON(&newFields); err != nil {
+		c.String(http.StatusBadRequest, "UpdateProduct: Unable to bind JSON body to object")
+		return
 	}
-	Services.UpdateProduct(queryParams, newFields)
-	return c.SendString("UpdateProduct")
+	// TODO: Put this in a separate function
+	isValid := Services.UpdateProduct(queryParams, newFields)
+	if isValid {
+		c.String(http.StatusOK, "UpdateProduct: SUCCESS")
+	} else {
+		c.String(http.StatusBadRequest, "UpdateProduct: Invalid Product fields specified")
+	}
 }
 
 // Delete Product in DB with specified conditions in the query parameters (in the URL)
-func DeleteProduct(c *fiber.Ctx) error {
-	queryParams := Utils.QueryParamsToMap(c.OriginalURL())
+func DeleteProduct(c *gin.Context) {
+	queryParams := c.Request.URL.Query()
 	Services.DeleteProduct(queryParams)
-	return c.SendString("DeleteProduct")
+	c.String(http.StatusOK, "DeleteProduct")
 }

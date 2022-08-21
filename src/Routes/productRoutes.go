@@ -3,15 +3,16 @@ package Routes
 import (
 	Controller "nikhil/e_market/src/Controllers"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gin-gonic/gin"
 )
 
-func enableProductRoutes(app *fiber.App) {
-	// Product routes
-	app.Get("/products", Controller.GetProducts)
-	// all routes here are for admin user group only
-	app.Post("/products", Controller.CreateProduct)
-	app.Put("/products", Controller.UpdateProduct) //Can add product to collection here
-	app.Delete("/products", Controller.DeleteProduct)
+func enableProductRoutes(router *gin.Engine) {
 
+	// Product routes
+	router.GET("/products", Controller.GetProducts)
+
+	// all routes here are for admin user group only
+	router.POST("/products", Controller.CreateProduct)
+	router.PUT("/products", Controller.UpdateProduct)
+	router.DELETE("/products", Controller.DeleteProduct)
 }

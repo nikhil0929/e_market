@@ -12,21 +12,19 @@
 package Routes
 
 import (
-	"log"
-
-	"github.com/gofiber/fiber/v2"
+	"github.com/gin-gonic/gin"
 )
 
 func StartServerProcess() {
-	app := fiber.New()
+	router := gin.Default()
 
-	enableProductRoutes(app)
+	enableProductRoutes(router)
 	//enableUserRoutes(app)
 	// enableCartRoutes(app)
 	// enableProductRoutes(app)
 	// enableOrderRoutes(app)
 	// Add the rest of the routes and stuff here ...
 
-	log.Fatal(app.Listen(":8080"))
+	router.Run(":8080")
 
 }
