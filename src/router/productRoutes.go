@@ -1,4 +1,4 @@
-package Routes
+package Router
 
 import (
 	Controller "nikhil/e_market/src/Controllers"

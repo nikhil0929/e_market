@@ -29,6 +29,7 @@ func CreateLogMessage(action string, object interface{}) string {
 	return fmt.Sprintf("%s %s", action, reflect.TypeOf(object))
 }
 
+// THIS FUNCTION IS NOT USED
 // Takes query params string and returns a map of query params
 // If no query params are provided, returns an empty map
 // An empty query param is equivalent to "*"

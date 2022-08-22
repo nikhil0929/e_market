@@ -1,5 +1,3 @@
-// platform/authenticator/auth.go
-
 package authenticator
 
 import (
