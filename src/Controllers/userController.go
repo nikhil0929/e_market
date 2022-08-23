@@ -15,6 +15,7 @@ import (
 // Handler for our login.
 func Login(auth *authenticator.Authenticator) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+		fmt.Println("http://" + ctx.Request.Host)
 		state, err := Services.GenerateRandomState()
 		if err != nil {
 			ctx.String(http.StatusInternalServerError, err.Error())
@@ -37,8 +38,9 @@ func Login(auth *authenticator.Authenticator) gin.HandlerFunc {
 func Callback(auth *authenticator.Authenticator) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		session := sessions.Default(ctx)
+		// fmt.Println("DEBUG: QUERIED STATE " + string(ctx.Query("state")))
+		// fmt.Println("DEBUG: SESSION STATE " + session.Get("state").(string))
 		if ctx.Query("state") != session.Get("state") {
-			fmt.Println("DEBUG: QUERIED STATE " + string(ctx.Query("state")) + ", SESSION STATE " + session.Get("state").(string))
 
 			ctx.String(http.StatusBadRequest, "Invalid state parameter.")
 			return
@@ -78,6 +80,7 @@ func Callback(auth *authenticator.Authenticator) gin.HandlerFunc {
 // Handler for our logout.
 func Logout(ctx *gin.Context) {
 	logoutUrl, err := url.Parse("https://" + os.Getenv("AUTH0_DOMAIN") + "/v2/logout")
+	fmt.Println("DEBUG: LOGOUT WORKED!!!")
 	if err != nil {
 		ctx.String(http.StatusInternalServerError, err.Error())
 		return

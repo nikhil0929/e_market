@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"nikhil/e_market/src/Config"
 	"nikhil/e_market/src/DB"
 	"nikhil/e_market/src/Router"
@@ -29,7 +28,8 @@ func main() {
 	rtr := Router.New(auth)
 
 	log.Print("Server listening on http://localhost:8080/")
-	if err := http.ListenAndServe("0.0.0.0:8080", rtr); err != nil {
-		log.Fatalf("There was an error with the http server: %v", err)
-	}
+	rtr.Run(":8080")
+	// if err := http.ListenAndServe("0.0.0.0:8080", rtr); err != nil {
+	// 	log.Fatalf("There was an error with the http server: %v", err)
+	// }
 }
