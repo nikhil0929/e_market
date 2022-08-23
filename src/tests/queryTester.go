@@ -1,12 +1,5 @@
 package tests
 
-import (
-	"fmt"
-	"log"
-	"nikhil/e_market/src/DB"
-	"nikhil/e_market/src/Models"
-)
-
 func CreateAndLoadProduct() {
 
 	// sampleCollection := Models.Collection{
@@ -23,29 +16,29 @@ func CreateAndLoadProduct() {
 	// 	Collection:   sampleCollection,
 	// }
 
-	type RecivedProduct struct {
-		Name        string
-		Description string
-		Price       float64
-		Inventory   int
-	}
+	// type RecivedProduct struct {
+	// 	Name        string
+	// 	Description string
+	// 	Price       float64
+	// 	Inventory   int
+	// }
 
-	var Products []Models.Product
-	var RecievedProducts []RecivedProduct
-	conditions := map[string]interface{}{"price": "199.99"}
-	//fields := []string{"name", "description", "price", "inventory"}
+	// var Products []Models.Product
+	// var RecievedProducts []RecivedProduct
+	// conditions := map[string]interface{}{"price": "199.99"}
+	// //fields := []string{"name", "description", "price", "inventory"}
 
-	//DB.CreateRecord(db, &sampleProduct)
-	DB.QueryRecordWithMapConditions(DB.Connection, Products, RecievedProducts, conditions)
-	// Query all products with name "Sample Product" and print their details
-	for _, product := range Products {
-		log.Println(product)
-	}
-	fmt.Println(len(RecievedProducts))
+	// //DB.CreateRecord(db, &sampleProduct)
+	// DB.QueryRecordWithMapConditions(DB.Connection, Products, RecievedProducts, conditions)
+	// // Query all products with name "Sample Product" and print their details
+	// for _, product := range Products {
+	// 	log.Println(product)
+	// }
+	// fmt.Println(len(RecievedProducts))
 }
 
 func DeleteItem() {
 	//Utils.MigrateAll(db)
-	conditions := map[string]interface{}{"name": "Sample Product"}
-	DB.DeleteRecord(DB.Connection, Models.Product{}, conditions)
+	// conditions := map[string]interface{}{"name": "Sample Product"}
+	// DB.DeleteRecord(DB.Connection, Models.Product{}, conditions)
 }

@@ -9,33 +9,37 @@ import (
 // All functions called from respective productController.go function
 
 // CreateProduct creates a product in the DB with specified query parameters and new fields
-func CreateProduct(newFields Models.Product) string {
+func CreateProduct(newFields Models.Product) bool {
 	isValid := Utils.CheckProductValidity(newFields)
 	if isValid {
-		DB.CreateRecord(DB.Connection, &newFields)
-		return "Product Created"
+		DB.CreateRecord(&newFields)
+		return true
 	}
-	return "Unable to create product: Invalid Product fields specified"
+	return false
 }
 
 // GetProducts returns all products in the DB with specified query parameters
-func GetProducts(queryParams map[string]interface{}) []Models.Product {
+func GetProducts(queryParams map[string][]string) []Models.Product {
 	var RecievedProducts []Models.Product
-	RecievedProducts = DB.QueryRecordWithMapConditions(DB.Connection, &Models.Product{}, RecievedProducts, queryParams).([]Models.Product)
+	RecievedProducts = DB.QueryRecordWithMapConditions(&Models.Product{}, RecievedProducts, queryParams).([]Models.Product)
 	return RecievedProducts
 }
 
 // UpdateProduct updates a product in the DB with specified query parameters and new fields
-func UpdateProduct(conditions map[string]interface{}, newFields Models.Product) string {
-	isValid := Utils.CheckProductValidity(newFields)
-	if isValid {
-		DB.UpdateRecord(DB.Connection, Models.Product{}, conditions, newFields)
-		return "Product Updated"
-	}
-	return "Unable to update product: Invalid Product fields specified"
+func UpdateProduct(conditions map[string][]string, newFields Models.Product) bool {
+	// TODO: The following code is not working as expected. Need to fix it
+	// isValid := Utils.CheckProductValidity(newFields)
+	// if isValid {
+	// 	DB.UpdateRecord(Models.Product{}, conditions, newFields)
+	// 	return true
+	// }
+	// return false
+
+	DB.UpdateRecord(Models.Product{}, conditions, newFields)
+	return true
 }
 
 // DeleteProduct deletes a product in the DB with specified query parameters
-func DeleteProduct(conditions map[string]interface{}) {
-	DB.DeleteRecord(DB.Connection, Models.Product{}, conditions)
+func DeleteProduct(conditions map[string][]string) {
+	DB.DeleteRecord(Models.Product{}, conditions)
 }

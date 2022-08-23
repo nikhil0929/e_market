@@ -29,6 +29,7 @@ func CreateLogMessage(action string, object interface{}) string {
 	return fmt.Sprintf("%s %s", action, reflect.TypeOf(object))
 }
 
+// THIS FUNCTION IS NOT USED
 // Takes query params string and returns a map of query params
 // If no query params are provided, returns an empty map
 // An empty query param is equivalent to "*"
@@ -47,8 +48,16 @@ func QueryParamsToMap(queryParams string) map[string]interface{} {
 }
 
 func CheckProductValidity(product Models.Product) bool {
+	fmt.Println(product)
 	if product.Price < 0 || product.Inventory < 0 || product.Name == "" || product.Price == 0 || product.Inventory == 0 {
 		return false
 	}
 	return true
+}
+
+func CreateConditionClause(query *gorm.DB, queryParams map[string][]string) *gorm.DB {
+	for key, value := range queryParams {
+		query = query.Where(key+" IN (?)", value)
+	}
+	return query
 }
