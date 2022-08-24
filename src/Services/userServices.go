@@ -1,32 +1,55 @@
 package Services
 
 import (
-	"crypto/rand"
-	"encoding/base64"
-	"net/http"
+	"nikhil/e_market/src/DB"
+	"nikhil/e_market/src/Models"
+	"nikhil/e_market/src/Utils"
 
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 )
 
-func GenerateRandomState() (string, error) {
-	b := make([]byte, 32)
-	_, err := rand.Read(b)
-	if err != nil {
-		return "", err
+func CheckUserExists(user Models.User) bool {
+	conditions := map[string][]string{
+		"email": {user.Email},
 	}
-
-	state := base64.StdEncoding.EncodeToString(b)
-
-	return state, nil
+	// Check if the user email exists in the database
+	dbUser := DB.QueryRecordWithMapConditions(Models.User{}, Models.User{}, conditions).([]Models.User)
+	if len(dbUser) > 0 {
+		return false
+	}
+	return true
 }
 
-// IsAuthenticated is a middleware that checks if
-// the user has already been authenticated previously.
-func IsAuthenticated(ctx *gin.Context) {
-	if sessions.Default(ctx).Get("profile") == nil {
-		ctx.Redirect(http.StatusSeeOther, "/")
-	} else {
-		ctx.Next()
+func CheckFormValidity(user Models.User) bool {
+	if user.Email == "" || user.Password == "" {
+		return false
 	}
+	return true
+}
+
+func ValidateUserCredentials(user Models.User) bool {
+	conditions := map[string][]string{
+		"email": {user.Email},
+	}
+	// Get User details from the database
+	dbUser := DB.QueryRecordWithMapConditions(Models.User{}, Models.User{}, conditions).([]Models.User)
+	err := bcrypt.CompareHashAndPassword([]byte(dbUser[0].Password), []byte(user.Password))
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+func CreateUser(user Models.User) {
+	user.Password = Utils.GenerateHashPassword(user.Password)
+	DB.CreateRecord(user)
+}
+
+func GetUserProfile(username string) Models.User {
+	conditions := map[string][]string{
+		"Username": {username},
+	}
+	// Get User details from the database
+	dbUser := DB.QueryRecordWithMapConditions(Models.User{}, Models.User{}, conditions).([]Models.User)
+	return dbUser[0]
 }

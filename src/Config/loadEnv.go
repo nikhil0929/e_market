@@ -19,6 +19,8 @@ var Db_password string
 var Port int
 var Db_name string
 
+var JWT_secret_key string
+
 func LoadEnv() {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -30,5 +32,7 @@ func LoadEnv() {
 	Db_password = os.Getenv("DB_PASSWORD")
 	Port, _ = strconv.Atoi(os.Getenv("PORT"))
 	Db_name = os.Getenv("DB_NAME")
+
+	JWT_secret_key = os.Getenv("JWT_SECRET_KEY")
 
 }

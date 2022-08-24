@@ -8,6 +8,7 @@ import (
 	"reflect"
 	"strings"
 
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -59,4 +60,12 @@ func CreateConditionClause(query *gorm.DB, queryParams map[string][]string) *gor
 		query = query.Where(key+" IN (?)", value)
 	}
 	return query
+}
+
+func GenerateHashPassword(password string) string {
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		fmt.Println("Error hashing password")
+	}
+	return string(hashedPass)
 }

@@ -1,54 +1,55 @@
-package authenticator
+package Authenticator
 
 import (
-	"context"
-	"errors"
-	"os"
+	"nikhil/e_market/src/Config"
+	"nikhil/e_market/src/Models"
+	"time"
 
-	"github.com/coreos/go-oidc/v3/oidc"
-	"golang.org/x/oauth2"
+	"log"
+
+	"github.com/golang-jwt/jwt/v4"
 )
 
-// Authenticator is used to authenticate our users.
-type Authenticator struct {
-	*oidc.Provider
-	oauth2.Config
+var jwtKey = []byte(Config.JWT_secret_key)
+
+type JWTClaim struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Role     string `json:"role"`
+	jwt.StandardClaims
 }
 
-// New instantiates the *Authenticator.
-func New() (*Authenticator, error) {
-	provider, err := oidc.NewProvider(
-		context.Background(),
-		"https://"+os.Getenv("AUTH0_DOMAIN")+"/",
-	)
+func GenerateJWT(user Models.User) (string, error) {
+	expirationTime := time.Now().Add(time.Minute * 30)
+
+	claims := &JWTClaim{
+		Username: user.Username,
+		Email:    user.Email,
+		Role:     user.Role,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims) // MAYBE US SHA256 instead
+	tokenString, err := token.SignedString(jwtKey)
+	return tokenString, err
+}
+
+// If token is invalid, return error, otherwise return nothing
+func ValidateJWT(signedToken string) (claims *JWTClaim, isValid bool) {
+	token, err := jwt.ParseWithClaims(signedToken, &JWTClaim{}, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
 	if err != nil {
-		return nil, err
+		log.Println(err)
+		return claims, false
 	}
 
-	conf := oauth2.Config{
-		ClientID:     os.Getenv("AUTH0_CLIENT_ID"),
-		ClientSecret: os.Getenv("AUTH0_CLIENT_SECRET"),
-		RedirectURL:  os.Getenv("AUTH0_CALLBACK_URL"),
-		Endpoint:     provider.Endpoint(),
-		Scopes:       []string{oidc.ScopeOpenID, "profile"},
+	if claims, ok := token.Claims.(*JWTClaim); ok && token.Valid {
+		if claims.ExpiresAt < time.Now().Unix() {
+			return claims, false
+		}
+		return claims, true
 	}
-
-	return &Authenticator{
-		Provider: provider,
-		Config:   conf,
-	}, nil
-}
-
-// VerifyIDToken verifies that an *oauth2.Token is a valid *oidc.IDToken.
-func (a *Authenticator) VerifyIDToken(ctx context.Context, token *oauth2.Token) (*oidc.IDToken, error) {
-	rawIDToken, ok := token.Extra("id_token").(string)
-	if !ok {
-		return nil, errors.New("no id_token field in oauth2 token")
-	}
-
-	oidcConfig := &oidc.Config{
-		ClientID: a.ClientID,
-	}
-
-	return a.Verifier(oidcConfig).Verify(ctx, rawIDToken)
+	return claims, false
 }
