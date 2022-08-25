@@ -1,7 +1,6 @@
 package Services
 
 import (
-	"log"
 	"nikhil/e_market/src/DB"
 	"nikhil/e_market/src/Models"
 	"nikhil/e_market/src/Utils"
