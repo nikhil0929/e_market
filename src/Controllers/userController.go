@@ -2,7 +2,6 @@ package Controller
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"nikhil/e_market/src/Authenticator"
 	"nikhil/e_market/src/Models"
@@ -43,8 +42,6 @@ func UserSignIn(c *gin.Context) {
 		dbUser, isValid := Services.ValidateUserCredentials(user)
 		if isValid {
 			token, isSuccess := Authenticator.GenerateJWT(dbUser)
-			log.Println("YOUR TOKEN IS: ", token)
-			log.Println("USER IS: ", dbUser)
 			if !isSuccess {
 				c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to generate token"})
 				return

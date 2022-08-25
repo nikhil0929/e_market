@@ -18,7 +18,7 @@ func CheckUserExists(user Models.User) bool {
 	fmt.Println(conditions)
 	// Check if the user email exists in the database
 	dbUser := getUsers(conditions)
-	if dbUser[0].Email == "" {
+	if len(dbUser) == 0 {
 		return false
 	}
 	return true
@@ -40,7 +40,6 @@ func ValidateUserCredentials(user Models.User) (Models.User, bool) {
 	if err != nil {
 		return Models.User{}, false
 	}
-	log.Println("USERS CREDENTIALS ARE VALID")
 	return dbUser[0], true
 }
 
