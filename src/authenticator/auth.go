@@ -45,6 +45,7 @@ func ValidateJWT(signedToken string) (claims *JWTClaim, isValid bool) {
 	token, err := jwt.ParseWithClaims(signedToken, &parsedClaims, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
+
 	if err != nil {
 		log.Println("Unable to validate token: ", err)
 		return claims, false

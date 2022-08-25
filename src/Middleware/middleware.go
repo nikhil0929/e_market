@@ -1,7 +1,6 @@
 package Middleware
 
 import (
-	"log"
 	"net/http"
 	"nikhil/e_market/src/Authenticator"
 
@@ -20,8 +19,8 @@ func IsAuthorized(ctx *gin.Context) {
 	// validate token
 	claims, isValid := Authenticator.ValidateJWT(sgToken)
 	if !isValid {
-		log.Println("Token NOT VALID")
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		ctx.Abort()
 		return
 	}
 	ctx.Request.Header.Set("email", claims.Email)

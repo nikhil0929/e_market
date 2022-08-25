@@ -65,3 +65,8 @@ func GetUserProfile(ctx *gin.Context) {
 	user := Services.GetUserProfile(email)
 	ctx.JSON(http.StatusOK, user)
 }
+
+// TODO: NEED TO IMPLEMENT
+func Logout(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, gin.H{"message": "Logout successfully"})
+}
