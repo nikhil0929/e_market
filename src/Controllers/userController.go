@@ -2,6 +2,7 @@ package Controller
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"nikhil/e_market/src/Authenticator"
 	"nikhil/e_market/src/Models"
@@ -39,13 +40,17 @@ func UserSignIn(c *gin.Context) {
 		return
 	}
 	if Services.CheckFormValidity(user) {
-		if Services.ValidateUserCredentials(user) {
-			token, err := Authenticator.GenerateJWT(user)
-			if err != nil {
-				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		dbUser, isValid := Services.ValidateUserCredentials(user)
+		if isValid {
+			token, isSuccess := Authenticator.GenerateJWT(dbUser)
+			log.Println("YOUR TOKEN IS: ", token)
+			log.Println("USER IS: ", dbUser)
+			if !isSuccess {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to generate token"})
 				return
+			} else {
+				c.JSON(http.StatusOK, gin.H{"token": token})
 			}
-			c.JSON(http.StatusOK, gin.H{"token": token})
 		} else {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid username or password"})
 		}
@@ -54,8 +59,9 @@ func UserSignIn(c *gin.Context) {
 	}
 }
 
-func GetUserProfile(c *gin.Context) {
-	claims := c.MustGet("claims").(map[string]interface{})
-	user := Services.GetUserProfile(claims["username"].(string))
-	c.JSON(http.StatusOK, user)
+func GetUserProfile(ctx *gin.Context) {
+	// claims := c.MustGet("claims").(map[string]interface{})
+	email := ctx.GetHeader("email")
+	user := Services.GetUserProfile(email)
+	ctx.JSON(http.StatusOK, user)
 }

@@ -1,30 +1,29 @@
 package Middleware
 
 import (
+	"log"
 	"net/http"
 	"nikhil/e_market/src/Authenticator"
 
 	"github.com/gin-gonic/gin"
 )
 
-type AuthHeader struct {
-	SignedToken string `json:"token"`
-}
-
-func IsAuthroized(ctx *gin.Context) {
-	var authHeader AuthHeader
+func IsAuthorized(ctx *gin.Context) {
 
 	// check if token is present in header
-	if err := ctx.ShouldBindHeader(&authHeader); err != nil {
-		ctx.JSON(http.StatusOK, gin.H{"error": err.Error()})
+	sgToken := ctx.Request.Header["Token"][0]
+	if len(sgToken) == 0 {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Token not found"})
+		ctx.Abort()
 		return
 	}
 	// validate token
-	claims, isValid := Authenticator.ValidateJWT(authHeader.SignedToken)
+	claims, isValid := Authenticator.ValidateJWT(sgToken)
 	if !isValid {
+		log.Println("Token NOT VALID")
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 		return
 	}
-	ctx.Set("claims", claims)
+	ctx.Request.Header.Set("email", claims.Email)
 	ctx.Next()
 }

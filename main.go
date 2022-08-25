@@ -9,7 +9,6 @@ import (
 
 func main() {
 
-	// Utils.MigrateAll(DB.Connection)
 	//tests.CreateAndLoadProduct()
 	//tests.ServerProccesTester()
 	//tests.DeleteItem()
@@ -17,6 +16,7 @@ func main() {
 
 	Config.LoadEnv()
 	DB.ConnectDatabase()
+	//Utils.MigrateAll(DB.Connection)
 
 	// create a new router using New() function in Router package
 	rtr := Router.New()

@@ -12,10 +12,11 @@ func enableUserRoutes(router *gin.Engine) {
 
 	authorized := router.Group("/")
 	authorized.POST("/signup", Controller.UserSignUp)
-	authorized.Use(Middleware.IsAuthroized)
-	{
-		authorized.POST("/login", Controller.UserSignIn)
-		authorized.GET("/profile", Controller.GetUserProfile)
-		//authorized.GET("/logout", Controller.Logout)
-	}
+	authorized.POST("/login", Controller.UserSignIn)
+	authorized.GET("/profile", Middleware.IsAuthorized, Controller.GetUserProfile)
+	// authorized.Use(Middleware.IsAuthroized)
+	// {
+	// 	authorized.GET("/profile", Controller.GetUserProfile)
+	// 	//authorized.GET("/logout", Controller.Logout)
+	// }
 }

@@ -19,7 +19,7 @@ type JWTClaim struct {
 	jwt.StandardClaims
 }
 
-func GenerateJWT(user Models.User) (string, error) {
+func GenerateJWT(user Models.User) (string, bool) {
 	expirationTime := time.Now().Add(time.Minute * 30)
 
 	claims := &JWTClaim{
@@ -32,16 +32,21 @@ func GenerateJWT(user Models.User) (string, error) {
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims) // MAYBE US SHA256 instead
 	tokenString, err := token.SignedString(jwtKey)
-	return tokenString, err
+	if err != nil {
+		log.Println("Error while generating JWT: ", err)
+		return "", false
+	}
+	return tokenString, true
 }
 
 // If token is invalid, return error, otherwise return nothing
 func ValidateJWT(signedToken string) (claims *JWTClaim, isValid bool) {
-	token, err := jwt.ParseWithClaims(signedToken, &JWTClaim{}, func(token *jwt.Token) (interface{}, error) {
+	parsedClaims := JWTClaim{}
+	token, err := jwt.ParseWithClaims(signedToken, &parsedClaims, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
 	if err != nil {
-		log.Println(err)
+		log.Println("Unable to validate token: ", err)
 		return claims, false
 	}
 
