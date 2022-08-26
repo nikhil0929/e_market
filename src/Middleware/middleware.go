@@ -24,5 +24,9 @@ func IsAuthorized(ctx *gin.Context) {
 		return
 	}
 	ctx.Request.Header.Set("email", claims.Email)
+	ctx.Request.Header.Set("username", claims.Username)
+	ctx.Request.Header.Set("role", claims.Role)
 	ctx.Next()
 }
+
+func ParseSession()

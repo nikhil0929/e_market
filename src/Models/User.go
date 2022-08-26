@@ -14,6 +14,6 @@ type User struct {
 	Address  string         `json:"address"`
 	Phone    string         `json:"phone"`
 	Role     string         `json:"role"`
-	CartID   uint           `json:"cart_id"`
+	Cart     Cart           `json:"cart"`
 	OrderIDs pq.StringArray `gorm:"type:text[]" json:"order_ids"`
 }

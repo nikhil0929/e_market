@@ -16,7 +16,7 @@ func main() {
 
 	Config.LoadEnv()
 	DB.ConnectDatabase()
-	//Utils.MigrateAll(DB.Connection)
+	// Utils.MigrateAll(DB.Connection)
 
 	// create a new router using New() function in Router package
 	rtr := Router.New()
