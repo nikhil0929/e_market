@@ -53,7 +53,7 @@ func UserSignIn(c *gin.Context) {
 		return
 	}
 	// MAYBE CLEAN UP THIS FUNCTION IT IS REALLY UGLY (DO IT ON ALL ENDPOINTS)
-	if Services.CheckFormValidity(user) { // Check form validity and has required fields
+	if Services.CheckLoginFormValidity(user) { // Check form validity and has required fields
 		dbUser, isValid := Services.ValidateUserCredentials(user) // Validate user credentials
 		if isValid {
 			token, isSuccess := Authenticator.GenerateJWT(dbUser) // Generate JWT token with required claims

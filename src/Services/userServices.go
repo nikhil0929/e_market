@@ -30,6 +30,13 @@ func CheckFormValidity(user Models.User) bool {
 	return true
 }
 
+func CheckLoginFormValidity(user Models.User) bool {
+	if user.Email == "" || user.Password == "" {
+		return false
+	}
+	return true
+}
+
 func ValidateUserCredentials(user Models.User) (Models.User, bool) {
 	conditions := map[string][]string{
 		"email": {user.Email},
