@@ -2,32 +2,55 @@ package Controller
 
 import (
 	"net/http"
+	"nikhil/e_market/src/Models"
 	"nikhil/e_market/src/Services"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
-// Client supplies token, server reads user claim from token and returns user cart
+// Client session cookie, server parses session cookie and returns user cart
 func GetUserCart(c *gin.Context) {
-	email := c.GetHeader("email")
-	userCart := Services.GetUserCart(email)
+	session := sessions.Default(c)
+	userCart := session.Get("cart").(Models.Cart)
 	c.JSON(http.StatusOK, userCart)
 }
 
+// Client supplies Models.ItemRequest as JSON, server adds item to cart and returns cart
 func AddProductToCart(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "pong",
-	})
+	session := sessions.Default(c)
+	var itemRequest Models.ItemRequest
+	if err := c.ShouldBindJSON(&itemRequest); err != nil {
+		c.String(http.StatusBadRequest, "CreateProduct: Unable to bind JSON body to object")
+		return
+	}
+	userCart := session.Get("cart").(Models.Cart)
+	userCart, err := Services.AddProductToCart(userCart, itemRequest)
+	if err != nil {
+		c.String(http.StatusBadRequest, "CreateProduct: Product not found")
+		return
+	}
+	session.Set("cart", userCart)
+	session.Save()
+	c.JSON(http.StatusOK, userCart)
 }
 
-func GetCartItems(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "pong",
-	})
-}
-
+// Client supplies Models.ItemRequest as JSON, server deletes item from cart and returns cart
+// Models.ItemRequest does not use the 'quantity' field
 func DeleteCartItem(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "pong",
-	})
+	session := sessions.Default(c)
+	var itemRequest Models.ItemRequest
+	if err := c.ShouldBindJSON(&itemRequest); err != nil {
+		c.String(http.StatusBadRequest, "CreateProduct: Unable to bind JSON body to object")
+		return
+	}
+	userCart := session.Get("cart").(Models.Cart)
+	userCart, err := Services.DeleteCartItem(userCart, itemRequest)
+	if err != nil {
+		c.String(http.StatusBadRequest, "DeleteCartItem: Cart item does not exist")
+		return
+	}
+	session.Set("cart", userCart)
+	session.Save()
+	c.JSON(http.StatusOK, userCart)
 }

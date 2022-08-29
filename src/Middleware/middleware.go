@@ -1,9 +1,12 @@
 package Middleware
 
 import (
+	"log"
 	"net/http"
 	"nikhil/e_market/src/Authenticator"
+	"nikhil/e_market/src/Models"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,4 +32,18 @@ func IsAuthorized(ctx *gin.Context) {
 	ctx.Next()
 }
 
-func ParseSession()
+func ParseSession(ctx *gin.Context) {
+	session := sessions.Default(ctx)
+	var userCart Models.Cart
+	val := session.Get("cart")
+	if val == nil {
+		log.Println("Created new cart")
+		userCart = Models.Cart{}
+	} else {
+		log.Println("Found existing cart")
+		userCart = val.(Models.Cart)
+	}
+	session.Set("cart", userCart)
+	session.Save()
+	ctx.Next()
+}

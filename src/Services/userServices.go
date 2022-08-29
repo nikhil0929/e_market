@@ -59,6 +59,5 @@ func GetUsers(queryParams map[string][]string) []Models.User {
 
 func CreateUser(User Models.User) {
 	User.Password = Utils.GenerateHashPassword(User.Password)
-	User.Cart = Models.Cart{}
 	DB.CreateRecord(&User)
 }
