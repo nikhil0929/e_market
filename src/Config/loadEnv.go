@@ -20,6 +20,7 @@ var Port int
 var Db_name string
 
 var JWT_secret_key string
+var Cookie_secret_key string
 
 func LoadEnv() {
 	err := godotenv.Load(".env")
@@ -34,5 +35,6 @@ func LoadEnv() {
 	Db_name = os.Getenv("DB_NAME")
 
 	JWT_secret_key = os.Getenv("JWT_SECRET_KEY")
+	Cookie_secret_key = os.Getenv("COOKIE_SECRET_KEY")
 
 }

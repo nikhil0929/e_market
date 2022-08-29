@@ -1,21 +1,16 @@
 package Models
 
-import (
-	"time"
-
-	"gorm.io/gorm"
-)
-
+// REMOVE CART AND CART ITEM FROM THE DATABASE, JUST MAKE IT A STRUCT (do not make it gorm.Model)
 type Cart struct {
-	gorm.Model
-	UserID    uint       `json:"user_id"`
-	Items     []CartItem `json:"items"`
-	CreatedAt time.Time
+	Items []CartItem `json:"items"`
 }
 
 type CartItem struct {
-	gorm.Model
+	Product  Product `json:"product"`
+	Quantity uint    `json:"quantity"`
+}
+
+type ItemRequest struct {
 	ProductID uint `json:"product_id"`
-	Quantity  int  `json:"quantity"`
-	CartID    uint `json:"cart_id"`
+	Quantity  uint `json:"quantity"`
 }
