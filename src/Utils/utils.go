@@ -17,10 +17,8 @@ func MigrateAll(db *gorm.DB) {
 	err := db.Debug().AutoMigrate(
 		&Models.User{},
 		&Models.Product{},
-		&Models.Cart{},
 		&Models.Order{},
-		&Models.CartItem{},
-		&Models.OrderItem{})
+	)
 	if err != nil {
 		fmt.Println("Sorry couldn't migrate'...")
 	}

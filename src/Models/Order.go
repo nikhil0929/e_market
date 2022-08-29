@@ -14,8 +14,7 @@ type Order struct {
 }
 
 type OrderItem struct {
-	gorm.Model
-	OrderID   uint `json:"order_id"`
-	ProductID uint `json:"product_id"`
-	Quantity  int  `json:"quantity"`
+	OrderID  uint    `json:"order_id"`
+	Product  Product `json:"product"`
+	Quantity int     `json:"quantity"`
 }
