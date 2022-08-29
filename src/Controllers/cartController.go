@@ -12,8 +12,12 @@ import (
 // Client session cookie, server parses session cookie and returns user cart
 func GetUserCart(c *gin.Context) {
 	session := sessions.Default(c)
-	userCart := session.Get("cart").(Models.Cart)
-	c.JSON(http.StatusOK, userCart)
+	userCart := session.Get("cart")
+	if userCart == nil {
+		c.String(http.StatusBadRequest, "GetUserCart: User cart does not exist")
+		return
+	}
+	c.JSON(http.StatusOK, userCart.(Models.Cart))
 }
 
 // Client supplies Models.ItemRequest as JSON, server adds item to cart and returns cart
