@@ -10,6 +10,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
+	"github.com/stripe/stripe-go/v73"
 )
 
 // New registers the routes and returns the router.
@@ -19,6 +20,8 @@ func New() *gin.Engine {
 	store.Options(sessions.Options{MaxAge: 60 * 60 * 24}) // expire in a day
 	gob.Register(Models.Cart{})
 	router.Use(sessions.Sessions("mysession", store))
+
+	stripe.Key = Config.Stripe_secret_key
 
 	// To store custom types in our cookies,
 	// we must first register them using gob.Register

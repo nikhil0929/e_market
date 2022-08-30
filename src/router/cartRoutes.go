@@ -15,4 +15,5 @@ func enableCartRoutes(router *gin.Engine) {
 	carts.GET("/getUserCart", Controller.GetUserCart)
 	carts.PUT("/addProductToCart", Middleware.ParseSession, Controller.AddProductToCart)
 	carts.DELETE("/deleteCartItem", Controller.DeleteCartItem)
+
 }
