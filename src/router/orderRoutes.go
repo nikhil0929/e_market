@@ -8,6 +8,6 @@ import (
 
 func enableOrderRoutes(router *gin.Engine) {
 	// Order routes
-	router.GET("/createCheckoutSession", Controller.CreateCheckoutSession)
+	router.POST("/createCheckoutSession", Controller.CreateCheckoutSession)
 	//router.GET("/getOrders", Middleware.IsAuthorized, Controller.GetOrders)
 }

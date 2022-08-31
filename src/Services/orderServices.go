@@ -3,27 +3,27 @@ package Services
 import (
 	"nikhil/e_market/src/Models"
 
-	"github.com/stripe/stripe-go/v72"
-	"github.com/stripe/stripe-go/v72/price"
-	"github.com/stripe/stripe-go/v72/product"
+	"github.com/stripe/stripe-go/v73"
+	"github.com/stripe/stripe-go/v73/price"
+	"github.com/stripe/stripe-go/v73/product"
 )
 
 func CreateOrderItemCatalog(userCart Models.Cart) []*stripe.CheckoutSessionLineItemParams {
 	arr := make([]*stripe.CheckoutSessionLineItemParams, 0)
 	for _, item := range userCart.Items {
 		currProduct := item.Product
-		params := &stripe.ProductParams{
+		prodParams := &stripe.ProductParams{
 			Name:   stripe.String(currProduct.Name),
 			Images: []*string{stripe.String(currProduct.Image)},
 		}
-		prod, _ := product.New(params)
+		prod, _ := product.New(prodParams)
 
-		params1 := &stripe.PriceParams{
+		prParams := &stripe.PriceParams{
 			Currency:   stripe.String(string(stripe.CurrencyUSD)),
 			Product:    stripe.String(prod.ID),
 			UnitAmount: stripe.Int64(int64(currProduct.Price)),
 		}
-		pr, _ := price.New(params1)
+		pr, _ := price.New(prParams)
 		newItem := &stripe.CheckoutSessionLineItemParams{
 			Price:    stripe.String(pr.ID),
 			Quantity: stripe.Int64(int64(item.Quantity)),
