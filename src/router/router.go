@@ -5,7 +5,6 @@ package Router
 import (
 	"encoding/gob"
 	"nikhil/e_market/src/Config"
-	"nikhil/e_market/src/Middleware"
 	"nikhil/e_market/src/Models"
 
 	"github.com/gin-contrib/sessions"
@@ -20,7 +19,6 @@ func New() *gin.Engine {
 	store.Options(sessions.Options{MaxAge: 60 * 60 * 24}) // expire in a day
 	gob.Register(Models.Cart{})
 	router.Use(sessions.Sessions("mysession", store))
-	router.Use(Middleware.CORSMiddleware())
 
 	// To store custom types in our cookies,
 	// we must first register them using gob.Register
