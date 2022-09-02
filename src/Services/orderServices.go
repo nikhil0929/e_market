@@ -32,3 +32,30 @@ func CreateOrderItemCatalog(userCart Models.Cart) []*stripe.CheckoutSessionLineI
 	}
 	return arr
 }
+
+func SaveOrderToDB(userCart Models.Cart, email string) {
+	// dbUser := GetUserProfile(email)
+	// queryParams := map[string][]string{
+	// 	"email": {email},
+	// }
+	// odr := Models.Order{
+	// 	Items: CartItemToOrderItem(userCart),
+	// }
+	// dbUser.Orders = append(dbUser.Orders, odr)
+	// newFields := Models.User{
+	// 	Orders: dbUser.Orders,
+	// }
+
+	// DB.UpdateRecord(Models.User{}, queryParams, newFields)
+}
+
+// func CartItemToOrderItem(cart Models.Cart) []Models.OrderItem {
+// 	arr := make([]Models.OrderItem, 0)
+// 	for _, item := range cart.Items {
+// 		arr = append(arr, Models.OrderItem{
+// 			Product:  item.Product,
+// 			Quantity: item.Quantity,
+// 		})
+// 	}
+// 	return arr
+// }

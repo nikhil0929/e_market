@@ -5,6 +5,7 @@ import (
 	"nikhil/e_market/src/Config"
 	"nikhil/e_market/src/DB"
 	"nikhil/e_market/src/Router"
+	"nikhil/e_market/src/Utils"
 )
 
 func main() {
@@ -16,7 +17,7 @@ func main() {
 
 	Config.LoadEnv()
 	DB.ConnectDatabase()
-	// Utils.MigrateAll(DB.Connection)
+	Utils.MigrateAll(DB.Connection)
 
 	// create a new router using New() function in Router package
 	rtr := Router.New()
