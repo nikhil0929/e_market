@@ -13,6 +13,7 @@ func enableCartRoutes(router *gin.Engine) {
 	carts := router.Group("/")
 	// Currently, you can only access the cart routes if you are logged in
 	carts.GET("/getUserCart", Controller.GetUserCart)
-	carts.PUT("/addProductToCart", Middleware.ParseSession, Controller.AddProductToCart)
+	carts.POST("/addProductToCart", Middleware.ParseSession, Controller.AddProductToCart)
 	carts.DELETE("/deleteCartItem", Controller.DeleteCartItem)
+
 }

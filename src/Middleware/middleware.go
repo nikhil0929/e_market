@@ -13,14 +13,15 @@ import (
 func IsAuthorized(ctx *gin.Context) {
 
 	// check if token is present in header
-	sgToken := ctx.Request.Header["Token"][0]
+	sgToken := ctx.Request.Header["Token"]
 	if len(sgToken) == 0 {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Token not found"})
 		ctx.Abort()
 		return
 	}
+
 	// validate token
-	claims, isValid := Authenticator.ValidateJWT(sgToken)
+	claims, isValid := Authenticator.ValidateJWT(sgToken[0])
 	if !isValid {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 		ctx.Abort()
@@ -46,4 +47,20 @@ func ParseSession(ctx *gin.Context) {
 	session.Set("cart", userCart)
 	session.Save()
 	ctx.Next()
+}
+
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With, mysession")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
 }

@@ -21,6 +21,7 @@ var Db_name string
 
 var JWT_secret_key string
 var Cookie_secret_key string
+var Stripe_secret_key string
 
 func LoadEnv() {
 	err := godotenv.Load(".env")
@@ -36,5 +37,6 @@ func LoadEnv() {
 
 	JWT_secret_key = os.Getenv("JWT_SECRET_KEY")
 	Cookie_secret_key = os.Getenv("COOKIE_SECRET_KEY")
+	Stripe_secret_key = os.Getenv("STRIPE_SECRET_KEY")
 
 }
