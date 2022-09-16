@@ -5,10 +5,10 @@ package DB
 // all database functions here can be used by 'Services' to fetch/update/insert/delete data from DB
 // *** place DB connection file in this folder as well ***
 import (
+	"e_market/src/Config"
+	"e_market/src/Utils"
 	"fmt"
 	"log"
-	"nikhil/e_market/src/Config"
-	"nikhil/e_market/src/Utils"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

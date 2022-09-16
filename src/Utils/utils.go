@@ -1,10 +1,10 @@
-//All utility functions go in here.
+// All utility functions go in here.
 // functions like: capitalizing all letters in word, summing all values in an array, or even MIGRATING DATABASE MODELS TO POSTGRES
 package Utils
 
 import (
+	"e_market/src/Models"
 	"fmt"
-	"nikhil/e_market/src/Models"
 	"reflect"
 	"strings"
 

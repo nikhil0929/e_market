@@ -1,9 +1,9 @@
 package Controller
 
 import (
+	"e_market/src/Models"
+	"e_market/src/Services"
 	"net/http"
-	"nikhil/e_market/src/Models"
-	"nikhil/e_market/src/Services"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"

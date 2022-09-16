@@ -1,8 +1,8 @@
 package Authenticator
 
 import (
-	"nikhil/e_market/src/Config"
-	"nikhil/e_market/src/Models"
+	"e_market/src/Config"
+	"e_market/src/Models"
 	"time"
 
 	"log"

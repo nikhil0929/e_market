@@ -1,8 +1,8 @@
 package Router
 
 import (
-	Controller "nikhil/e_market/src/Controllers"
-	"nikhil/e_market/src/Middleware"
+	Controller "e_market/src/Controllers"
+	"e_market/src/Middleware"
 
 	"github.com/gin-gonic/gin"
 )

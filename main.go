@@ -1,11 +1,11 @@
 package main
 
 import (
+	"e_market/src/Config"
+	"e_market/src/DB"
+	"e_market/src/Router"
+	"e_market/src/Utils"
 	"log"
-	"nikhil/e_market/src/Config"
-	"nikhil/e_market/src/DB"
-	"nikhil/e_market/src/Router"
-	"nikhil/e_market/src/Utils"
 )
 
 func main() {

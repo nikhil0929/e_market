@@ -1,9 +1,9 @@
 package Services
 
 import (
-	"nikhil/e_market/src/DB"
-	"nikhil/e_market/src/Models"
-	"nikhil/e_market/src/Utils"
+	"e_market/src/DB"
+	"e_market/src/Models"
+	"e_market/src/Utils"
 )
 
 // All functions called from respective productController.go function

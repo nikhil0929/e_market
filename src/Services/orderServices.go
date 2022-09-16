@@ -1,7 +1,7 @@
 package Services
 
 import (
-	"nikhil/e_market/src/Models"
+	"e_market/src/Models"
 
 	"github.com/stripe/stripe-go/v73"
 	"github.com/stripe/stripe-go/v73/price"

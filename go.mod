@@ -1,4 +1,4 @@
-module nikhil/e_market
+module e_market
 
 go 1.18
 
