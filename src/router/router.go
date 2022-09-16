@@ -3,10 +3,10 @@
 package Router
 
 import (
+	"e_market/src/Config"
+	"e_market/src/Middleware"
+	"e_market/src/Models"
 	"encoding/gob"
-	"nikhil/e_market/src/Config"
-	"nikhil/e_market/src/Middleware"
-	"nikhil/e_market/src/Models"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"

@@ -1,10 +1,10 @@
 package Middleware
 
 import (
+	"e_market/src/Authenticator"
+	"e_market/src/Models"
 	"log"
 	"net/http"
-	"nikhil/e_market/src/Authenticator"
-	"nikhil/e_market/src/Models"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"

@@ -1,10 +1,10 @@
 package Controller
 
 import (
+	"e_market/src/Authenticator"
+	"e_market/src/Models"
+	"e_market/src/Services"
 	"net/http"
-	"nikhil/e_market/src/Authenticator"
-	"nikhil/e_market/src/Models"
-	"nikhil/e_market/src/Services"
 
 	"github.com/gin-gonic/gin"
 )
