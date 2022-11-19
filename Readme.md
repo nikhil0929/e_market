@@ -18,8 +18,8 @@ It is has API endpoints for different functionalities:
 All data is stored on a Postgres Database
   
 ## Next Steps
-I need to do are create an actual frontend in React to interact with the API.
-I need to fix the database table architecture which might be a little messed up. 
+- I need to do are create an actual frontend in React to interact with the API.
+- I need to fix the database table architecture which might be a little messed up. 
 
 ### Steps ###
 
